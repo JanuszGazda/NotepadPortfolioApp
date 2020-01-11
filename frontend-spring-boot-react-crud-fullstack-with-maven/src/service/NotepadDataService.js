@@ -10,8 +10,20 @@ class NotepadDataService {
     return axios.get(`${USER_API_URL}/notes`);
   }
 
+  retrieveNote(name, id) {
+    return axios.get(`${USER_API_URL}/note/${id}`);
+  }
+
   deleteNote(id) {
     return axios.delete(`${NOTEPAD_API_URL}/${USER}/note/${id}`);
+  }
+
+  updateNote(name, id, note) {
+    return axios.put(`${USER_API_URL}/note/${id}`, note);
+  }
+
+  createNote(name, note) {
+    return axios.post(`${USER_API_URL}/note/`, note);
   }
 }
 

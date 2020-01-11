@@ -11,6 +11,8 @@ class ListNotesComponent extends Component {
     }
     this.refreshNotes = this.refreshNotes.bind(this)
     this.deleteNoteClicked = this.deleteNoteClicked.bind(this)
+    this.updateNoteClicked = this.updateNoteClicked.bind(this)
+    this.addNoteClicked = this.addNoteClicked.bind(this)
   }
 
   componentDidMount() {
@@ -37,6 +39,14 @@ class ListNotesComponent extends Component {
       )
   }
 
+  updateNoteClicked(id) {
+    this.props.history.push(`/note/${id}`)
+  }
+
+  addNoteClicked() {
+    this.props.history.push(`/note/-1`)
+  }
+
     render() {
         return (
             <div className="container">
@@ -48,6 +58,8 @@ class ListNotesComponent extends Component {
                             <tr>
                                 <th>Id</th>
                                 <th>Description</th>
+                                <th>Update</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,12 +69,16 @@ class ListNotesComponent extends Component {
                                   <tr key={note.id}>
                                     <td>{note.id}</td>
                                     <td>{note.note}</td>
+                                    <td><button className="btn btn-success" onClick={() => this.updateNoteClicked(note.id)}>Update</button></td>
                                     <td><button className="btn btn-warning" onClick={() => this.deleteNoteClicked(note.id)}>Delete</button></td>
                                   </tr>
                               )
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="row">
+                  <button className="btn btn-success" onClick={this.addNoteClicked}>Add</button>
                 </div>
             </div>
         )

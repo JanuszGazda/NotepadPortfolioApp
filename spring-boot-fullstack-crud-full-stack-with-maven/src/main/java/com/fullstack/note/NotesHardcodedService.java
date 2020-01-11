@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class NotesHardcodedService {
 
 	public Note deleteById(long id) {
-		Note note = notes.stream().filter(elem -> elem.getId() == id).findFirst().orElse(null);
+		Note note = findById(id);
 		
 		if (note == null) {
 			return null;
@@ -18,6 +18,22 @@ public class NotesHardcodedService {
 			return note;
 		}
 		return null;
+	}
+	
+	public Note findById(long id) {
+		return notes.stream().filter(elem -> elem.getId() == id).findFirst().orElse(null);
+	}
+	
+	public Note save(Note note, String user) {
+		note.setUsername(user);
+		if (note.getId() == -1 || note.getId() == 0) {
+			note.setId(++idCounter);
+			notes.add(note);
+		} else {
+			deleteById(note.getId());
+			notes.add(note);
+		}
+		return note;
 	}
 	
 	private static List<Note> notes = new ArrayList<>();
