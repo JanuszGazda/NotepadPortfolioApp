@@ -18,31 +18,31 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @CrossOrigin(origins = { "http://localhost:3000"})
 @RestController
-public class NotesResource {
+public class NotesController {
 
 	@Autowired
-	private NotesHardcodedService notesHardcodedService;
+	private NotesService notesService;
 	
 	@GetMapping("/{username}/notes")
 	public List<Note> getAllNotes(@PathVariable String username) {
-		return notesHardcodedService.findAll();
+		return notesService.findAll();
 	}
 	
 	@GetMapping("/{username}/note/{id}")
 	public Note getNote(@PathVariable String username, @PathVariable long id) {
-		return notesHardcodedService.findById(id);
+		return notesService.findById(id);
 	}
 	
 	@PutMapping("{username}/note/{id}")
 	public ResponseEntity<Note> updateNote(@PathVariable String username, @PathVariable long id,
 			@RequestBody Note note) {
-		Note noteUpdated = notesHardcodedService.save(note, username);
+		Note noteUpdated = notesService.save(note, username);
 		return new ResponseEntity<Note>(noteUpdated, HttpStatus.OK);
 	}
 	
 	@PostMapping("{username}/notes")
 	public ResponseEntity<Void> createNote(@PathVariable String username, @RequestBody Note note) {
-		Note createdNote = notesHardcodedService.save(note, username);
+		Note createdNote = notesService.save(note, username);
 		//send response status
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdNote.getId())
 				.toUri();
@@ -51,7 +51,7 @@ public class NotesResource {
 	
 	@DeleteMapping("/{username}/note/{id}")
 	public ResponseEntity<Void> deleteNote(@PathVariable String username, @PathVariable long id) {
-		Note note = notesHardcodedService.deleteById(id);
+		Note note = notesService.deleteById(id);
 		
 		if (note != null) {
 			return ResponseEntity.noContent().build();
