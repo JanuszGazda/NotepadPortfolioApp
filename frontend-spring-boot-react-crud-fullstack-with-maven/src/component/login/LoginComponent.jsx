@@ -4,10 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -94,11 +91,12 @@ class LoginComponent extends Component {
                 <Avatar className={classes.avatar}>
                   <LockOutlinedIcon />
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" style={{paddingBottom: 10, paddingTop: 10}}>
                   Sign in
                 </Typography>
                 {this.state.hasLoginFailed && <div className="alert alert-warning">Nope, try again</div>}
                 {this.state.showSuccessMessage && <div>Login Sucessful</div>}
+                {this.props.logout && <div className="alert alert-warning">See ya later</div>}
                 <div className={classes.form} noValidate>
                   <TextField
                     variant="outlined"

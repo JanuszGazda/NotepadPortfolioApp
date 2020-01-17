@@ -26,6 +26,16 @@ class AuthenticationService {
         return true
     }
 
+    getLoggedInUserName() {
+        let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+        if (user === null) return ''
+        return user
+    }
+
+    logout() {
+        sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+    }
+
   setupAxiosInterceptors(token) {
     axios.interceptors.request.use(
       (config) => {
