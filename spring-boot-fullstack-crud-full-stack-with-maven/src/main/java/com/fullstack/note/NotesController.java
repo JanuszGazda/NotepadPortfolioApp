@@ -23,33 +23,33 @@ public class NotesController {
 	@Autowired
 	private NotesService notesService;
 	
-	@GetMapping("/{username}/notes")
+	@GetMapping("/{userId}/notes")
 	public List<Note> getAllNotes(@PathVariable String username) {
 		return notesService.findAll();
 	}
 	
-	@GetMapping("/{username}/note/{id}")
+	@GetMapping("/{userId}/note/{id}")
 	public Note getNote(@PathVariable String username, @PathVariable long id) {
 		return notesService.findById(id);
 	}
 	
-	@PutMapping("{username}/note/{id}")
-	public ResponseEntity<Note> updateNote(@PathVariable String username, @PathVariable long id,
+	@PutMapping("{userId}/note/{id}")
+	public ResponseEntity<Note> updateNote(@PathVariable int userId, @PathVariable long id,
 			@RequestBody Note note) {
-		Note noteUpdated = notesService.save(note, username);
+		Note noteUpdated = notesService.save(note, userId);
 		return new ResponseEntity<Note>(noteUpdated, HttpStatus.OK);
 	}
 	
-	@PostMapping("{username}/notes")
-	public ResponseEntity<Void> createNote(@PathVariable String username, @RequestBody Note note) {
-		Note createdNote = notesService.save(note, username);
+	@PostMapping("{userId}/notes")
+	public ResponseEntity<Void> createNote(@PathVariable int userId, @RequestBody Note note) {
+		Note createdNote = notesService.save(note, userId);
 		//send response status
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdNote.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@DeleteMapping("/{username}/note/{id}")
+	@DeleteMapping("/{userId}/note/{id}")
 	public ResponseEntity<Void> deleteNote(@PathVariable String username, @PathVariable long id) {
 		Note note = notesService.deleteById(id);
 		

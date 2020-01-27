@@ -33,8 +33,8 @@ public class NotesService {
 		return null;
 	}
 	
-	public Note save(Note note, String user) {
-		note.setUsername(user);
+	public Note save(Note note, int userId) {
+		//note.setUserId(userId);
 		noteRepository.save(note);
 		
 		return note;

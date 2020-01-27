@@ -12,7 +12,7 @@ class AuthenticationService {
   }
 
   createAuthToken(username, password) {
-    return 'Basic ' + window.btoa(username + ":" + password)
+    return 'Basic ' + (username + ":" + password)
   }
 
   registerSuccessfulLogin(username, password) {

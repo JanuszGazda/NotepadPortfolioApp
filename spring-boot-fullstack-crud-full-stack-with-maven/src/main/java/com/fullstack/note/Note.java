@@ -5,23 +5,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fullstack.userAndRole.User;
 
 @Entity
+@Table(name = "note")
 public class Note {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "note_id")
 	private Long id;
-	
-	@Column
-	private String username;
-	
+		
 	@Column
 	private String note;
 	
-	public Note(Long id, String username, String note) {
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable=false)
+	private User user;
+	
+	public Note(Long id, int userId, String note) {
 		this.id = id;
-		this.username = username;
 		this.note = note;
 	}
 	
@@ -33,12 +40,6 @@ public class Note {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
 	}
 	public String getNote() {
 		return note;
