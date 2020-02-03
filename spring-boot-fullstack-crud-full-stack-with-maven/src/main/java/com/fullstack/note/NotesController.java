@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@CrossOrigin(origins = { "http://localhost:3000"})
+@CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
 public class NotesController {
 
@@ -24,7 +24,7 @@ public class NotesController {
 	private NotesService notesService;
 	
 	@GetMapping("/{userId}/notes")
-	public List<Note> getAllNotes(@PathVariable String username) {
+	public List<Note> getAllNotes(@PathVariable String userId) {
 		return notesService.findAll();
 	}
 	
