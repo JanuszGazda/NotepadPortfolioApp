@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NotepadDataService from '../service/NotepadDataService.js';
+import AuthenticationService from '../service/AuthenticationService'
 
 class ListNotesComponent extends Component {
 
@@ -20,7 +21,7 @@ class ListNotesComponent extends Component {
   }
 
   refreshNotes() {
-    NotepadDataService.retrieveAllNotes('admin') //Hardcoded :(
+    NotepadDataService.retrieveAllNotes(AuthenticationService.getLoggedInUserName())
       .then(
         response => {
           console.log(response);

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fullstack.userAndRole.UserService;
+
 @CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
 public class NotesController {
@@ -23,33 +25,36 @@ public class NotesController {
 	@Autowired
 	private NotesService notesService;
 	
-	@GetMapping("/{userId}/notes")
-	public List<Note> getAllNotes(@PathVariable String userId) {
-		return notesService.findAll();
+	@Autowired
+	private UserService userService;
+	
+	@GetMapping("/{username}/notes")
+	public List<Note> getAllNotes(@PathVariable String username) {
+		return userService.getAllUserNotes(username);
 	}
 	
-	@GetMapping("/{userId}/note/{id}")
+	@GetMapping("/{username}/note/{id}")
 	public Note getNote(@PathVariable String username, @PathVariable long id) {
 		return notesService.findById(id);
 	}
 	
-	@PutMapping("{userId}/note/{id}")
-	public ResponseEntity<Note> updateNote(@PathVariable int userId, @PathVariable long id,
+	@PutMapping("{userName}/note/{id}")
+	public ResponseEntity<Note> updateNote(@PathVariable String userName, @PathVariable long id,
 			@RequestBody Note note) {
-		Note noteUpdated = notesService.save(note, userId);
+		Note noteUpdated = notesService.save(note, userName);
 		return new ResponseEntity<Note>(noteUpdated, HttpStatus.OK);
 	}
 	
-	@PostMapping("{userId}/notes")
-	public ResponseEntity<Void> createNote(@PathVariable int userId, @RequestBody Note note) {
-		Note createdNote = notesService.save(note, userId);
+	@PostMapping("{username}/notes")
+	public ResponseEntity<Void> createNote(@PathVariable String userName, @RequestBody Note note) {
+		Note createdNote = notesService.save(note, userName);
 		//send response status
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdNote.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@DeleteMapping("/{userId}/note/{id}")
+	@DeleteMapping("/{username}/note/{id}")
 	public ResponseEntity<Void> deleteNote(@PathVariable String username, @PathVariable long id) {
 		Note note = notesService.deleteById(id);
 		

@@ -6,11 +6,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fullstack.userAndRole.User;
+import com.fullstack.userAndRole.UserRepository;
+
 @Service
 public class NotesService {
 
 	@Autowired
 	NoteRepository noteRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	public Note deleteById(long id) {
 		Note note = findById(id);
@@ -33,8 +39,9 @@ public class NotesService {
 		return null;
 	}
 	
-	public Note save(Note note, int userId) {
-		//note.setUserId(userId);
+	public Note save(Note note, String userName) {
+		User current = userRepository.findByUsername(userName);
+		note.setUser(current);
 		noteRepository.save(note);
 		
 		return note;

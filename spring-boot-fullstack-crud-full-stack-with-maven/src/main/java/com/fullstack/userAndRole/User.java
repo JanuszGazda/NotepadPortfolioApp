@@ -2,6 +2,7 @@ package com.fullstack.userAndRole;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fullstack.note.Note;
 
 @Entity
@@ -51,7 +53,8 @@ public class User implements UserDetails {
 	private String password;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Note> notes;
+	@JsonManagedReference
+	private List<Note> notes;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -110,11 +113,11 @@ public class User implements UserDetails {
 		return true;
 	}
 
-	public Set<Note> getNotes() {
+	public List<Note> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(Set<Note> notes) {
+	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
 
