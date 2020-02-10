@@ -20,6 +20,10 @@ class AuthenticationService {
     this.setupAxiosInterceptors(this.createAuthToken(username, password))
   }
 
+  registerSuccessfulRegistration(username, password) {
+    return axios.post(`${API_URL}/register`, username, password );
+  }
+
   isUserLoggedIn() {
         let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
         if (user === null) return false

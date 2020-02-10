@@ -38,8 +38,8 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
 		
 		http.csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/login").authenticated()
-					.anyRequest().authenticated()
+		.antMatchers("/register").permitAll()
+		.anyRequest().authenticated()
 					.and()
 					.httpBasic();
 		http.cors();
