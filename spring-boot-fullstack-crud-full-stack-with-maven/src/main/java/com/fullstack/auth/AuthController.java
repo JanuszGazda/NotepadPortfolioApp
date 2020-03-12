@@ -29,13 +29,13 @@ public class AuthController {
 	}
 	
 	@PostMapping(path = "/register")
-	public ResponseEntity<Void> register(@RequestBody String username, @RequestBody String password) {
+	public ResponseEntity<Void> register(@RequestBody CredentialsDTO cred) {
 
 		User newUser = new User();
-		newUser.setPassword(password);
-		newUser.setUsername(username);
+		newUser.setPassword(cred.password);
+		newUser.setUsername(cred.username);
 		userService.saveUser(newUser);
-		if (userService.findUserByName(username) != null) {
+		if (userService.findUserByName(cred.username) != null) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);

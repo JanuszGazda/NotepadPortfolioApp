@@ -142,7 +142,7 @@ class LoginComponent extends Component {
                 </RadioGroup>
                 {this.state.hasLoginFailed && <div className="alert alert-warning">Nope, try again</div>}
                 {this.state.showSuccessMessage && <div>Login Sucessful</div>}
-                {this.state.showSuccessRegistrationMessage && <div>User {this.state.username} registered</div>}
+                {this.state.showSuccessRegistrationMessage && <div className="alert alert-success">User {this.state.username} registered</div>}
                 {this.state.showFailedRegistrationMessage && <div className="alert alert-warning">User {this.state.username} registration failed</div>}
                 {this.props.logout && <div className="alert alert-warning">See ya later</div>}
                 <div className={classes.form} noValidate>

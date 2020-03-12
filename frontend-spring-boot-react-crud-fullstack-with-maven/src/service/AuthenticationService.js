@@ -21,7 +21,9 @@ class AuthenticationService {
   }
 
   registerSuccessfulRegistration(username, password) {
-    return axios.post(`${API_URL}/register`, username, password );
+    return axios.post(`${API_URL}/register`, {
+      username: username,
+      password: password });
   }
 
   isUserLoggedIn() {
