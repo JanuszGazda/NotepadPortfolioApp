@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fullstack.userAndRole.UserService;
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
 public class NotesController {
 
@@ -30,7 +30,7 @@ public class NotesController {
 	
 	@GetMapping("/{username}/notes")
 	public List<Note> getAllNotes(@PathVariable String username) {
-		return userService.getAllUserNotes(username);
+		return username.equals("admin") ? notesService.findAll() : userService.getAllUserNotes(username);
 	}
 	
 	@GetMapping("/{username}/note/{id}")
@@ -38,6 +38,7 @@ public class NotesController {
 		return notesService.findById(id);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PutMapping("{userName}/note/{id}")
 	public ResponseEntity<Note> updateNote(@PathVariable String userName, @PathVariable long id,
 			@RequestBody Note note) {

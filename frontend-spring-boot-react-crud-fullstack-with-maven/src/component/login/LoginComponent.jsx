@@ -91,9 +91,13 @@ class LoginComponent extends Component {
 
     loginFn() {
         AuthenticationService.executeAuthService(this.state.username, this.state.password)
-            .then(() => {
+            .then((value) => {
               AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)
-              this.props.history.push(`/notes`)
+              if (value.data == "user") {
+                this.props.history.push(`/notes`)
+              } else if (value.data == "admin") {
+                this.props.history.push(`/notesAndUsers`)
+              }
             }).catch(() => {
               this.setState({ showSuccessMessage: false })
               this.setState({ hasLoginFailed: true })

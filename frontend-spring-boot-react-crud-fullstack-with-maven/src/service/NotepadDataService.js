@@ -5,11 +5,15 @@ const API_URL = 'http://localhost:8080'
 
 class NotepadDataService {
 
-  retrieveAllNotes(name) {
+  retrieveAllNotes() {
     return axios.get(`${API_URL}/${AuthenticationService.getLoggedInUserName()}/notes`);
   }
 
-  retrieveNote(name, id) {
+  retrieveAllNotesfromAllUsers() {
+    return axios.get(`${API_URL}/${AuthenticationService.getLoggedInUserName()}/allNotes`);
+  }
+
+  retrieveNote(id) {
     return axios.get(`${API_URL}/${AuthenticationService.getLoggedInUserName()}/note/${id}`);
   }
 
@@ -17,11 +21,11 @@ class NotepadDataService {
     return axios.delete(`${API_URL}/${AuthenticationService.getLoggedInUserName()}/note/${id}`);
   }
 
-  updateNote(name, id, note) {
+  updateNote(id, note) {
     return axios.put(`${API_URL}/${AuthenticationService.getLoggedInUserName()}/note/${id}`, note);
   }
 
-  createNote(name, note) {
+  createNote(note, id) {
     return axios.post(`${API_URL}/${AuthenticationService.getLoggedInUserName()}/note/`, note);
   }
 }

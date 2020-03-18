@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fullstack.userAndRole.User;
@@ -25,7 +26,18 @@ public class Note {
 	@JoinColumn(name = "owner_id")
 	@JsonBackReference
 	private User user;
+	
+	@Transient
+	private String userName;
 		
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public User getUser() {
 		return user;
 	}

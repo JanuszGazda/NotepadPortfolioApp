@@ -27,6 +27,10 @@ public class UserService {
 		return userRepository.findByUsername(name);
 	}
 	
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+	
 	public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Role userRole = new Role(RoleType.ROLE_USER);

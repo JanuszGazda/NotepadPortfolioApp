@@ -1,7 +1,9 @@
 package com.fullstack.note;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ public class NotesService {
 		return null;
 	}
 	
+	
 	public Note save(Note note, String userName) {
 		User current = userRepository.findByUsername(userName);
 		note.setUser(current);
@@ -48,6 +51,19 @@ public class NotesService {
 	}
 	
 	public List<Note> findAll() {
-		return (List<Note>) noteRepository.findAll();
+		List<Note> notes = new ArrayList<Note>();
+		List<User> users = new ArrayList<User>();
+		users = userRepository.findAll();
+		users.forEach(user -> {
+			user.getNotes().forEach(note -> {
+				note.setUserName(user.username);
+			});
+		});
+		for(int i=0; i<users.size(); i++) {
+			for(int j=0; j<users.get(i).getNotes().size(); j++) {
+				notes.add(users.get(i).getNotes().get(j));
+			}
+		}
+		return notes;
 	}
 }

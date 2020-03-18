@@ -1,5 +1,7 @@
 package com.fullstack.auth;
 
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.fullstack.note.Note;
+import com.fullstack.userAndRole.RoleType;
 import com.fullstack.userAndRole.User;
 import com.fullstack.userAndRole.UserService;
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @SessionAttributes({"currentUser"})
 @RestController
 public class AuthController {
@@ -25,7 +28,11 @@ public class AuthController {
 	
 	@GetMapping(path = "/login")
 	public String authenticate(@RequestHeader("authorization") String authData) {
-		return new String("You're cool");
+		String extract = authData.substring(authData.indexOf(" ")+1);
+		String userName = new String(Base64.getDecoder().decode(extract));
+		userName = userName.substring(0, userName.indexOf(":"));
+		RoleType usersRole = userService.findUserByName(userName).getRoles().iterator().next().getName();
+		return usersRole.toString().equalsIgnoreCase("role_admin") ? "admin" : "user";
 	}
 	
 	@PostMapping(path = "/register")

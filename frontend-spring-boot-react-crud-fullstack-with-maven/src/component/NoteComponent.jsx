@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NotepadDataService from '../service/NotepadDataService';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-let USER = 'admin'
+export const USER_SESSION_NAME = 'authenticatedUser'
 
 class NoteComponent extends Component {
 
@@ -23,7 +23,7 @@ class NoteComponent extends Component {
       return
     }
 
-    NotepadDataService.retrieveNote(USER, this.state.id)
+    NotepadDataService.retrieveNote(this.state.id)
       .then(
         response => this.setState({
         description: response.data.note
@@ -37,14 +37,15 @@ class NoteComponent extends Component {
       targetDate: values.targetDate
     }
 
-    if (this.state.id === -1) {
-      NotepadDataService.createNote(USER, note)
-        .then(() => this.props.history.push('/notes'))
-    } else {
-      NotepadDataService.updateNote(USER, this.state.id, note)
-        .then(() => this.props.history.push('/notes'))
+      NotepadDataService.updateNote(this.state.id, note)
+        .then(() => {
+          if(sessionStorage.getItem(USER_SESSION_NAME) === "admin") {
+            this.props.history.push('/notesAndUsers');
+          } else {
+            this.props.history.push('/notes')
+          }
+        })
     }
-  }
 
   validate(values) {
     let errors = {}
